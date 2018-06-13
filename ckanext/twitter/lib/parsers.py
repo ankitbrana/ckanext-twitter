@@ -66,7 +66,11 @@ def truncate_author(author):
         return re.split(name_sep_rgx, author)[-1] if name_sep else author
     first_author = re.split(sep_rgx, author)[0]
     if len(separators) == 1:
-        first_author = re.split(name_sep_rgx, first_author)[1]
+        authors = re.split(name_sep_rgx, first_author)
+        if (len(authors) > 1):
+            first_author = authors[1]
+        else:
+            first_author = authors[0]
     return '{0} et al.'.format(first_author)
 
 
