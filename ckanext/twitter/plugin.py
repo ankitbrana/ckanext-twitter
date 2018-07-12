@@ -13,10 +13,7 @@ class TwitterPlugin(p.SingletonPlugin):
     p.implements(p.IConfigurer)
     p.implements(p.ITemplateHelpers, inherit = True)
     p.implements(p.IRoutes, inherit = True)
-    if ckanext.twitter.lib.config_helpers.tweet_trigger() == 'dataset':
-        p.implements(p.IPackageController, inherit = True)
-    else:
-        p.implements(p.IResourceController, inherit = True)
+    p.implements(p.IResourceController, inherit = True)
     
     # IConfigurable
     def configure(self, config):
@@ -38,17 +35,31 @@ class TwitterPlugin(p.SingletonPlugin):
         # Add resources
         p.toolkit.add_resource('theme/fanstatic', 'ckanext-twitter')
 
+
     # IResourceController
-    def after_update(self, context, res_pkg_dict):
-        if ckanext.twitter.lib.config_helpers.tweet_trigger() == 'dataset':
-            pkg_dict = res_pkg_dict
-        else:
-            data_dict = {'id': res_pkg_dict['package_id']}
-            pkg_dict = tk.get_action('package_show')(context, data_dict)
+    def after_create(self, context, res_pkg_dict):
+        data_dict = {'id': res_pkg_dict['package_id']}
+        pkg_dict = tk.get_action('package_show')(context, data_dict)
 
         is_suitable = twitter_helpers.twitter_pkg_suitable(context,
                                                            pkg_dict['id'])
-        if is_suitable and 'Twitter_Popup' in pkg_dict.get('twitter_popup', []):
+        if is_suitable and ('Twitter_Popup' in pkg_dict.get('twitter_popup', [])):
+            try:
+                session.pop('twitter_is_suitable', '')
+                session.setdefault('twitter_is_suitable', pkg_dict['id'])
+                session.save()
+            except TypeError:
+                print "session not iterable"
+
+
+    # IResourceController
+    def after_update(self, context, res_pkg_dict):
+        data_dict = {'id': res_pkg_dict['package_id']}
+        pkg_dict = tk.get_action('package_show')(context, data_dict)
+
+        is_suitable = twitter_helpers.twitter_pkg_suitable(context,
+                                                           pkg_dict['id'])
+        if is_suitable and ('Twitter_Popup' in pkg_dict.get('twitter_popup', [])):
             try:
                 session.pop('twitter_is_suitable', '')
                 session.setdefault('twitter_is_suitable', pkg_dict['id'])
