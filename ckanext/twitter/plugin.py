@@ -4,7 +4,6 @@ from ckan.plugins import toolkit as tk
 from beaker.cache import cache_regions
 from ckan.common import session
 from ckanext.twitter.lib import config_helpers, helpers as twitter_helpers
-
 class TwitterPlugin(p.SingletonPlugin):
     '''
     Automatically send tweets when a dataset is updated or created.
@@ -36,7 +35,7 @@ class TwitterPlugin(p.SingletonPlugin):
         p.toolkit.add_resource('theme/fanstatic', 'ckanext-twitter')
 
 
-    # IResourceController
+    # IResourceController, called after a resource is created
     def after_create(self, context, res_pkg_dict):
         data_dict = {'id': res_pkg_dict['package_id']}
         pkg_dict = tk.get_action('package_show')(context, data_dict)
@@ -52,7 +51,7 @@ class TwitterPlugin(p.SingletonPlugin):
                 print "session not iterable"
 
 
-    # IResourceController
+    # IResourceController, called after a resource is updated
     def after_update(self, context, res_pkg_dict):
         data_dict = {'id': res_pkg_dict['package_id']}
         pkg_dict = tk.get_action('package_show')(context, data_dict)
