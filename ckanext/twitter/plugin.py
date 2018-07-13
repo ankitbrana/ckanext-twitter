@@ -36,8 +36,8 @@ class TwitterPlugin(p.SingletonPlugin):
 
 
     # IResourceController, called after a resource is created
-    def after_create(self, context, res_pkg_dict):
-        data_dict = {'id': res_pkg_dict['package_id']}
+    def after_create(self, context, resource):
+        data_dict = {'id': resource['package_id']}
         pkg_dict = tk.get_action('package_show')(context, data_dict)
 
         is_suitable = twitter_helpers.twitter_pkg_suitable(context,
@@ -52,8 +52,8 @@ class TwitterPlugin(p.SingletonPlugin):
 
 
     # IResourceController, called after a resource is updated
-    def after_update(self, context, res_pkg_dict):
-        data_dict = {'id': res_pkg_dict['package_id']}
+    def after_update(self, context, resource):
+        data_dict = {'id': resource['package_id']}
         pkg_dict = tk.get_action('package_show')(context, data_dict)
 
         is_suitable = twitter_helpers.twitter_pkg_suitable(context,
@@ -89,3 +89,4 @@ class TwitterPlugin(p.SingletonPlugin):
                          'method': ['POST']
                          })
         return _map
+        
