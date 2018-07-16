@@ -89,4 +89,3 @@ class TwitterPlugin(p.SingletonPlugin):
                          'method': ['POST']
                          })
         return _map
-        
