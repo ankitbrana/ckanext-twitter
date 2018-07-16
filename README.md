@@ -1,6 +1,13 @@
 # ckanext-twitter
 
-Sends a tweet every time a dataset is created or updated in the database.
+Note this README is unique to CHHS:
+
+Sends a tweet every time a dataset with the twitter popup field enabled is created or a resource within that dataset is added or updated.
+
+
+# Requirements
+
+This CHHS specific version of the Twitter Extension requires [ckanext-chhs_schema](https://github.com/OpenGov-OpenData/ckanext-chhs_schema).
 
 # Setup
 
