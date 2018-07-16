@@ -1,6 +1,6 @@
 # ckanext-twitter
 
-Note this README is unique to CHHS:
+Note this README is unique to CHHS!
 
 Sends a tweet every time a dataset with the twitter popup field enabled is created or a resource within that dataset is added or updated.
 
@@ -49,6 +49,7 @@ This CHHS specific version of the Twitter Extension requires [ckanext-chhs_schem
 There are a number of options that can be specified in your .ini config file. The only _required_ options are the twitter credentials. Everything else has a sensible default set.
 
 ## Twitter Credentials **[REQUIRED]**
+Place these configurations in your revelant .ini file below your plugin settings.
 
 ```ini
 ckanext.twitter.consumer_key = YOUR-CONSUMER-KEY
